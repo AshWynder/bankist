@@ -679,87 +679,130 @@ h4 {
 }
 /* RESPONSIVENESS */
 
-/* Tablet & Large Phones (Max-width: 900px) */
-@media screen and (max-width: 56.25em) {
-    .nav {
-        padding: 0 2rem;
-    }
+/* RESPONSIVENESS REPAIR */
 
-    .header__title {
-        grid-template-columns: 1fr; /* Stack title and image */
-        justify-items: center;
-        text-align: center;
-    }
-
-    .header__img {
-        grid-row: 1; /* Move image to top */
-        grid-column: 1;
-        width: 80%;
-        transform: translateY(0);
-        margin-bottom: 2rem;
-    }
-
-    .features {
-        grid-template-columns: 1fr; /* Single column features */
-        margin: 0 4rem;
-    }
-
-    .features__img {
-        grid-row: 1; /* Ensures image stays with its text in the stack */
-    }
-
-    .section__header {
-        font-size: 3rem;
-    }
-}
-
-/* Mobile Phones (Max-width: 600px) */
-@media screen and (max-width: 37.5em) {
+@media screen and (max-width: 600px) {
     html {
-        font-size: 50%; /* Scales down all rem-based sizes globally */
+        font-size: 50%; /* Scales down rem units */
     }
 
+    /* 1. FIX NAVIGATION OVERLAP */
     .nav {
         flex-direction: column;
-        height: auto;
-        padding: 2rem;
+        height: auto; /* Allow nav to grow with content */
+        padding: 2rem 1rem;
+        background-color: #fff; /* Ensure it's not transparent */
+        position: relative; /* Change from sticky/fixed if it's blocking header */
     }
 
     .nav__links {
-        margin-top: 2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 1.5rem;
+        gap: 1rem;
     }
 
     .nav__item {
-        margin: 0 1rem;
+        margin: 0;
     }
 
+    .nav__link--btn:link, .nav__link--btn:visited {
+        padding: 0.8rem 1.5rem; /* Smaller button for mobile */
+    }
+
+    /* 2. FIX HEADER SECTION (The "Banking meets Minimalist" part) */
+    .header {
+        height: auto; /* REMOVE 100vh - this is what's causing the overlap */
+        padding: 4rem 2rem;
+        display: block; /* Switch from flex to standard block flow */
+    }
+
+    .header__title {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        row-gap: 2rem;
+    }
+
+    h1 {
+        font-size: 4rem; /* Smaller font for small screens */
+        order: 2; /* Put text below image */
+    }
+
+    h4 {
+        order: 3;
+    }
+
+    .header__img {
+        order: 1; /* Image at the top */
+        width: 100%;
+        max-width: 40rem;
+        transform: none; /* Remove the translateY(-6rem) */
+        margin-bottom: 2rem;
+    }
+
+    .btn--scroll-to {
+        order: 4;
+        margin-top: 2rem;
+    }
+
+    /* 3. FIX SECTION PADDING */
     .section {
-        padding: 10rem 2rem;
+        padding: 6rem 2rem; /* Consistent internal spacing */
     }
 
+    .section__header {
+        font-size: 2.8rem;
+        margin-bottom: 3rem;
+    }
+
+    /* 4. FIX FEATURES (The 3 columns) */
+    .features {
+        display: flex;
+        flex-direction: column;
+        gap: 6rem;
+        margin: 0;
+    }
+
+    .features__feature {
+        width: 100%;
+        text-align: center;
+    }
+
+    .features__icon {
+        margin: 0 auto 2rem auto;
+    }
+
+    /* 5. FIX OPERATIONS TABS */
     .operations__tab-container {
-        flex-wrap: wrap; /* Stack tabs if they don't fit */
-        gap: 3rem;
+        display: grid;
+        grid-template-columns: 1fr; /* Stack buttons vertically */
+        gap: 1rem;
+        margin-bottom: 4rem;
     }
 
     .operations__tab {
-        margin: 0;
-        transform: translateY(0);
-    }
-
-    .operations__tab--active {
-        transform: translateY(-10%);
+        transform: none !important; /* Remove the "floating" effect */
+        width: 100%;
     }
 
     .operations__content--active {
-        grid-template-columns: 1fr; /* Stack icon and text */
-        justify-items: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         text-align: center;
-        padding: 3rem;
+        padding: 2rem;
     }
 
-    .operations__content p {
-        grid-column: 1;
+    /* 6. FIX TESTIMONIALS & SLIDER */
+    .slider {
+        height: auto;
+        min-height: 45rem;
+    }
+
+    .slide {
+        padding: 0 2rem;
     }
 
     .testimonial {
@@ -767,25 +810,17 @@ h4 {
     }
 
     .testimonial::before {
-        display: none; /* Remove giant quote marks on mobile to save space */
+        display: none; /* Remove big quote symbol to save space */
     }
 
-    .footer__nav {
-        flex-direction: column;
-        align-items: center;
-        gap: 2rem;
-    }
-
-    .footer__item {
-        margin: 0;
-    }
-
+    /* 7. MODAL FIX */
     .modal {
-        width: 90%;
-        padding: 4rem 2rem;
+        width: 95%;
+        padding: 3rem 2rem;
     }
 
     .modal__form {
-        grid-template-columns: 1fr; /* Form labels above inputs */
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 }
