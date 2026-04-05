@@ -17,7 +17,7 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: inherit;
+    box-sizing: border-box;
 }
 
 html {
@@ -31,6 +31,9 @@ body {
     color: #444;
     line-height: 1.9;
     background-color: #f3f3f3;
+    overflow-x: hidden; /* This is the ultimate "safety net" for scrollbars */
+    width: 100%;
+}
 }
 
 /* GENERAL ELEMENTS */
@@ -679,42 +682,42 @@ h4 {
 }
 /* RESPONSIVENESS */
 
-/* RESPONSIVENESS REPAIR */
-
 @media screen and (max-width: 600px) {
     html {
-        font-size: 50%; /* Scales down rem units */
+        font-size: 50%; 
     }
 
-    /* 1. FIX NAVIGATION OVERLAP */
+    /* FIX 1: KILL THE SCROLLBARS */
+    .section, 
+    .header, 
+    .nav, 
+    .footer,
+    .operations,
+    .slider {
+        width: 100% !important;
+        max-width: 100vw !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        overflow: hidden; /* Prevents internal elements from leaking out */
+    }
+
+    /* FIX 2: REPAIR THE HEADER & LOGO overlap */
     .nav {
+        height: auto;
+        padding: 2rem;
         flex-direction: column;
-        height: auto; /* Allow nav to grow with content */
-        padding: 2rem 1rem;
-        background-color: #fff; /* Ensure it's not transparent */
-        position: relative; /* Change from sticky/fixed if it's blocking header */
+        gap: 2rem;
     }
 
     .nav__links {
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 1.5rem;
+        padding: 0;
         gap: 1rem;
+        justify-content: center;
     }
 
-    .nav__item {
-        margin: 0;
-    }
-
-    .nav__link--btn:link, .nav__link--btn:visited {
-        padding: 0.8rem 1.5rem; /* Smaller button for mobile */
-    }
-
-    /* 2. FIX HEADER SECTION (The "Banking meets Minimalist" part) */
     .header {
-        height: auto; /* REMOVE 100vh - this is what's causing the overlap */
-        padding: 4rem 2rem;
-        display: block; /* Switch from flex to standard block flow */
+        height: auto; /* Vital to prevent overlapping following sections */
+        padding: 12rem 2rem 6rem 2rem; /* Top padding accounts for nav */
     }
 
     .header__title {
@@ -722,105 +725,70 @@ h4 {
         flex-direction: column;
         align-items: center;
         text-align: center;
-        row-gap: 2rem;
-    }
-
-    h1 {
-        font-size: 4rem; /* Smaller font for small screens */
-        order: 2; /* Put text below image */
-    }
-
-    h4 {
-        order: 3;
     }
 
     .header__img {
-        order: 1; /* Image at the top */
-        width: 100%;
-        max-width: 40rem;
-        transform: none; /* Remove the translateY(-6rem) */
-        margin-bottom: 2rem;
-    }
-
-    .btn--scroll-to {
-        order: 4;
-        margin-top: 2rem;
-    }
-
-    /* 3. FIX SECTION PADDING */
-    .section {
-        padding: 6rem 2rem; /* Consistent internal spacing */
-    }
-
-    .section__header {
-        font-size: 2.8rem;
+        width: 90%;
+        transform: none !important; /* Removes the offset that causes gaps */
         margin-bottom: 3rem;
     }
 
-    /* 4. FIX FEATURES (The 3 columns) */
-    .features {
-        display: flex;
-        flex-direction: column;
-        gap: 6rem;
-        margin: 0;
-    }
-
-    .features__feature {
-        width: 100%;
-        text-align: center;
-    }
-
-    .features__icon {
-        margin: 0 auto 2rem auto;
-    }
-
-    /* 5. FIX OPERATIONS TABS */
-    .operations__tab-container {
-        display: grid;
-        grid-template-columns: 1fr; /* Stack buttons vertically */
-        gap: 1rem;
+    /* FIX 3: ADD PADDING TO TEXT CONTENT */
+    .section__title {
+        padding: 0 2rem;
         margin-bottom: 4rem;
     }
 
+    .section__header {
+        font-size: 3rem;
+        line-height: 1.2;
+    }
+
+    /* FIX 4: OPERATIONS (The Tabbed Section) */
+    .operations {
+        width: 90% !important;
+        margin: 5rem auto;
+    }
+
+    .operations__tab-container {
+        transform: translateY(-2rem); /* Pulls them up slightly without breaking layout */
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
     .operations__tab {
-        transform: none !important; /* Remove the "floating" effect */
         width: 100%;
+        margin: 0;
+        transform: none !important;
     }
 
     .operations__content--active {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        padding: 4rem 2rem;
         text-align: center;
-        padding: 2rem;
     }
 
-    /* 6. FIX TESTIMONIALS & SLIDER */
+    /* FIX 5: SLIDER & TESTIMONIALS */
     .slider {
-        height: auto;
-        min-height: 45rem;
-    }
-
-    .slide {
-        padding: 0 2rem;
+        height: 55rem; /* Give it enough height for wrapped text */
     }
 
     .testimonial {
-        width: 100%;
+        width: 90%;
+        padding: 0 1rem;
     }
 
-    .testimonial::before {
-        display: none; /* Remove big quote symbol to save space */
+    .testimonial__author {
+        margin-left: 0;
+        justify-content: center;
     }
 
-    /* 7. MODAL FIX */
-    .modal {
-        width: 95%;
-        padding: 3rem 2rem;
-    }
-
-    .modal__form {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+    /* FIX 6: FOOTER */
+    .footer__nav {
+        flex-direction: column;
+        gap: 2rem;
+        align-items: center;
     }
 }
